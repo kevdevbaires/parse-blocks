@@ -4,23 +4,68 @@
  * Plugin Name: Parse blocks
  */
 
-namespace Cnet\ParseBlocks;
+namespace CNET\Bridge;
 
+class CNetBridge {
 
-class ParseBlocksManager {
+    /**
+     * Single instance of itself
+     *
+     * @var CNetBridge
+     *
+     * @access private
+     */
 	private static $_instance = null;
 
-	protected function __construct() {
+    /**
+     * Constructor
+     *
+     * @return void
+     *
+     * @access protected
+     */
+	protected function __construct()
+    {
 		RestfulManager::bootstrap();
 	}
 
-	public static function init() {
+    /**
+     * Activation hook
+     *
+     * @return void
+     *
+     * @access public
+     */
+	public static function init()
+    {
 		if (is_null(self::$_instance)) {
 			self::$_instance = new self;
 		}
 	}
+
+    /**
+     * Activation hook
+     *
+     * @return void
+     *
+     * @access public
+     */
+    public static function activate()
+    {
+        global $wp_version;
+
+        //check PHP Version
+        if (version_compare(PHP_VERSION, '7.0.0') === -1) {
+            exit(__('PHP 7.0.0 or higher is required.'));
+        } elseif (version_compare($wp_version, '5.0.0') === -1) {
+            exit(__('WP 5.5.0 or higher is required.'));
+        }
+    }
 }
 
-require_once __DIR__ . '/autoloader.php';
+if (defined('ABSPATH')) {
+    require_once __DIR__ . '/autoloader.php';
+    add_action('init', __NAMESPACE__ . '\CNetBridge::init');
 
-add_action('init', __NAMESPACE__ . '\ParseBlocksManager::init');
+    register_activation_hook(__FILE__, __NAMESPACE__ . '\CNetBridge::activate');
+}

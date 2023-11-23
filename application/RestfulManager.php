@@ -1,16 +1,14 @@
 <?php
-namespace Cnet\ParseBlocks;
+namespace CNET\Bridge;
 
 use WP_REST_Response;
 
 class RestfulManager {
 	private static $_instance = null;
-	protected function __construct() {
-		/*
-		 * Register API routes
-		 * */
+	protected function __construct()
+    {
 		add_action('rest_api_init', function () {
-			register_rest_route( 'parse-blocks/v1', '/post/(?P<id>\d+)', [
+			register_rest_route( 'bridge/v1', '/post/(?P<id>\d+)', [
 				'methods' => 'GET',
 				'callback' => [$this, 'fetchPostById'],
 				'arg' => [
@@ -22,10 +20,8 @@ class RestfulManager {
 					]
 				]
 			]);
-		});
 
-		add_action('rest_api_init', function () {
-			register_rest_route( 'parse-blocks/v1', '/posts', [
+			register_rest_route( 'bridge/v1', '/posts', [
 				'methods' => 'GET',
 				'callback' => [$this, 'fetchPosts'],
 			]);
@@ -45,17 +41,30 @@ class RestfulManager {
 			return new WP_REST_Response("Post not found", 404);
 		}
 
-		$paragraph = new ParagraphBlock;
 
 		return $post;
 	}
 
-	public static function bootstrap() {
-		if (is_null(self::$_instance)) {
-			self::$_instance = new self;
-		}
+    public function fetchPosts()
+    {
 
-		return self::$_instance;
-	}
+    }
+
+    /**
+     * Bootstrap the core manager
+     *
+     * @return RestfulManager
+     *
+     * @access public
+     * @static
+     */
+    public static function bootstrap()
+    {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self;
+        }
+
+        return self::$_instance;
+    }
 
 }

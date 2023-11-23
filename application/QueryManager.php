@@ -1,13 +1,10 @@
 <?php
-namespace Cnet\ParseBlocks;
+namespace CNET\Bridge;
 
+use CNET\Bridge\Blocks\ParagraphBlock;
 use WP_Error;
 
 Class QueryManager {
-
-	public function __construct() {
-	}
-
 
 	public static function getPost($id) {
 		$post = get_post($id);
@@ -22,32 +19,10 @@ Class QueryManager {
 
 		$parsed_blocks = parse_blocks($post->post_content);
 
-		$filterArray = array_filter($parsed_blocks, fn ($item) => $item['blockName'] !== NULL);
+		$filter_empty_blocks = array_filter($parsed_blocks, fn ($item) => $item['blockName'] !== NULL);
 
-		// Reset array keys if needed
-		$resultArray = array_values($filterArray);
+		$filtered_array = array_values($filter_empty_blocks);
 
-		/*
-		 * Call to custom filter in blocks/ParagraphBlock.php file
-		 * */
-		$rendered_content = apply_filters('my_custom_filter_hook', $resultArray);
-
-		/*
-		 * Debug to check if it's entering the custom filter
-		 * */
-		var_dump($rendered_content);
-		die();
-
-		return $rendered_content;
+        return apply_filters('bridge_block_filter', $filtered_array);
 	}
 }
-
-
-/*
- * Testing filter, if you call this one, it works.
- * */
-add_filter('parse_block', function($block) {
-	return 'entro parse_block filter';
-});
-
-
