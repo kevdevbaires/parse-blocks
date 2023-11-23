@@ -24,11 +24,6 @@ class Restful_Manager {
 					]
 				]
 			]);
-
-			register_rest_route(self::ROUTE_NAMESPACE, '/posts', [
-				'methods' => 'GET',
-				'callback' => [$this, 'fetch_posts'],
-			]);
 		});
 	}
 
@@ -44,13 +39,9 @@ class Restful_Manager {
 		if (!$post) {
 			return new WP_REST_Response("Post not found", 404);
 		}
-		
+
 		return $post;
 	}
-
-    public function fetch_posts() {
-
-    }
 
     /**
      * Bootstrap the core manager
