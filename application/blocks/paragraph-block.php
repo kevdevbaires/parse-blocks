@@ -22,7 +22,7 @@ class Paragraph_Block extends Block_Parser implements Block_Interface {
         return $this->to_html($filteredBlocks);
 	}
 
-    protected function to_html($filteredBlocks) {
+    public function to_html($filteredBlocks) {
         foreach ($filteredBlocks as $key => $block) {
             $this->blocks[$key] = trim(preg_replace('/\s+/', ' ', $block['innerHTML']));
         }
