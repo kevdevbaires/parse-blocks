@@ -1,67 +1,106 @@
 <?php
 
-namespace Cnet\ParseBlocks;
+namespace CNET\Bridge;
 
-/*
- * Initial autoloader, this is the one to use when
- * files are on the /application folder
- * */
+/**
+ * Project auto-loader
+ *
+ * @package CNET\Bridge
+ */
 class Autoloader {
 
+    /**
+     * Autoloader for project
+     *
+     * Try to load a class within the same namespace
+     *
+     * @param string $class_name
+     *
+     * @return void
+     *
+     * @access public
+     * @static
+     */
     public static function load($class_name) {
-
-        if (strpos($class_name, __NAMESPACE__) === 0) {
+        if (str_starts_with($class_name, __NAMESPACE__)) {
             $base     = __DIR__ . '/application';
             $relative = str_replace([__NAMESPACE__, '\\'], ['', '/'], $class_name);
-            $filename = $base . $relative . '.php';
+            $relative_kebab = str_replace('_', '-', strtolower($relative));
+            $filename = $base . $relative_kebab . '.php';
         }
 
         if (!empty($filename) && file_exists($filename)) {
-            require($filename);
+            require $filename;
         }
     }
 
+    /**
+     * Instantiate a class using reflection
+     *
+     * @param string $class_name
+     *
+     * @return void
+     *
+     * @access private
+     * @static
+     */
+    private static function instantiate_class($class_name) {
+        try {
+            $reflection_class = new \ReflectionClass($class_name);
+            $instance = $reflection_class->newInstance();
+        } catch (\ReflectionException $e) {
+            error_log('Error instantiating class: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Autoload and instantiate all classes within a namespace
+     *
+     * @param string $namespace
+     *
+     * @return void
+     *
+     * @access public
+     * @static
+     */
+    public static function load_blocks() {
+        $namespace = __NAMESPACE__ . '\Blocks';
+
+        $directory = __DIR__ . '/application/blocks';
+        $files = glob($directory . '/*.php');
+
+        if ($files) {
+            foreach ($files as $file) {
+                require_once $file;
+
+                $basename = basename($file, '.php');
+
+                $class_name_formatted = ucwords(str_replace('-', '_', $basename), '_');
+
+                $class_name = $namespace . "\\" . $class_name_formatted;
+
+                if (class_exists($class_name)) {
+                    self::instantiate_class($class_name);
+                }
+            }
+        }
+    }
+
+    /**
+     * Register auto-loader
+     *
+     * @return void
+     *
+     * @access public
+     * @static
+     */
     public static function register() {
         spl_autoload_register(__CLASS__ . '::load');
     }
 
 }
 
-//Autoloader::register();
-
-
-/*
- * Testing autoloader when having multiple
- * directories
- *
- * */
-class AutoloaderTest {
-	private $path;
-	private $namespace;
-	public function __construct($path) {
-		$this->path = $path;
-		$this->namespace = __NAMESPACE__;
-
-		spl_autoload_register([$this, 'load']);
-	}
-
-	function load($className) {
-		if (strpos($className, $this->namespace) === 0) {
-            $base     = __DIR__ . $this->path;
-            $relative = str_replace([__NAMESPACE__, '\\'], ['', '/'], $className);
-            $filename = $base . $relative . '.php';
-			
-        }
-
-		if (!empty($filename) && file_exists($filename)) {
-			require($filename);
-
-			if ($this->path == '/blocks'){
-				call_user_func($className . '::bootstrap');
-			}
-		}
-	}
+if (defined('ABSPATH')) {
+    Autoloader::register();
+    Autoloader::load_blocks();
 }
-
-$autoloader_app = new AutoloaderTest('/application');
-$autoloader_blocks = new AutoloaderTest('/blocks');
