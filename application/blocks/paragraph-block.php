@@ -11,10 +11,10 @@ class Paragraph_Block extends Block_Parser implements Block_Interface {
 	}
 
     public function init() {
-        add_filter('bridge_block_filter', [$this, 'get_content']);
+        add_filter('bridge_block_filter', [$this, 'block_parser']);
     }
 
-	public function get_content($content) {
+	public function block_parser($content) {
         $this->blocks = $content;
 
         $filteredBlocks = $this->filter_by_block_name('core/paragraph');
