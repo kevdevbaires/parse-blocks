@@ -1,7 +1,14 @@
 <?php
 
 /*
- * Plugin Name: Parse blocks
+ * Plugin Name:       CNET WordPress Bridge
+ * Description:       Plugin to retrieve parsed content from posts
+ * Version:           1.0.0
+ * Requires at least: 5.5.0
+ * Requires PHP:      7.0.0
+ * Author:            CNET Group
+ * Author URI:        https://cnet.com
+ * Text Domain:       cnet-wordpress-bridge
  */
 
 namespace CNET\Bridge;
