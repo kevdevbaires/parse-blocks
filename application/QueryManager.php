@@ -5,8 +5,10 @@ use CNET\Bridge\Blocks\ParagraphBlock;
 use WP_Error;
 
 Class QueryManager {
+    private static QueryManager $_instance;
 
-	public static function getPost($id) {
+    public function getPost($id)
+    {
 		$post = get_post($id);
 
 		if (empty($post)) {
@@ -17,12 +19,18 @@ Class QueryManager {
 			return $post;
 		}
 
-		$parsed_blocks = parse_blocks($post->post_content);
+        return $this->parsePost($post->post_content);
 
-		$filter_empty_blocks = array_filter($parsed_blocks, fn ($item) => $item['blockName'] !== NULL);
+	}
 
-		$filtered_array = array_values($filter_empty_blocks);
+    protected function parsePost($post)
+    {
+        $parsed_blocks = parse_blocks($post);
+
+        $filter_empty_blocks = array_filter($parsed_blocks, fn ($item) => $item['blockName'] !== NULL);
+
+        $filtered_array = array_values($filter_empty_blocks);
 
         return apply_filters('bridge_block_filter', $filtered_array);
-	}
+    }
 }

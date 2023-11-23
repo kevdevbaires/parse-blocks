@@ -5,8 +5,11 @@ use WP_REST_Response;
 
 class RestfulManager {
 	private static $_instance = null;
-	protected function __construct()
+    private QueryManager $queryManager;
+
+    protected function __construct()
     {
+        $this->queryManager = new QueryManager;
 		add_action('rest_api_init', function () {
 			register_rest_route( 'bridge/v1', '/post/(?P<id>\d+)', [
 				'methods' => 'GET',
@@ -35,7 +38,7 @@ class RestfulManager {
 			return new WP_REST_Response("Invalid or missing 'id' parameter.", 400);
 		}
 
-		$post = QueryManager::getPost($id);
+		$post = $this->queryManager->getPost($id);
 
 		if (!$post) {
 			return new WP_REST_Response("Post not found", 404);

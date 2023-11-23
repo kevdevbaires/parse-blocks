@@ -1,10 +1,9 @@
 <?php
 
 namespace CNET\Bridge\Blocks;
+
 class ParagraphBlock extends BlockParser implements BlockInterface {
-
 	public function __construct() {
-
         add_action('init',function () {
             $this->init();
         });
@@ -16,18 +15,16 @@ class ParagraphBlock extends BlockParser implements BlockInterface {
     }
 	public function parse($content) {
         $this->blocks = $content;
-        $this->filterBlocks('core/paragraph');
-        $parsed = $this->toHTML();
-        print_r($parsed);die();
-		return $content;
+        $filteredBlocks = $this->filterBlocks('core/paragraph');
+        return $this->toHTML($filteredBlocks);
 	}
 
-    function toHTML()
+    protected function toHTML($filteredBlocks)
     {
-        foreach ($this->filtered_array as $key => $block)
-        {
+        foreach ($filteredBlocks as $key => $block) {
             $this->blocks[$key] = $block['innerHTML'];
         }
+
         return $this->blocks;
     }
 }

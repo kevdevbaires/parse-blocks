@@ -6,6 +6,4 @@ interface BlockInterface
 {
     function init();
     function parse($content);
-    function toHTML();
-
 }

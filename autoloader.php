@@ -1,9 +1,6 @@
 <?php
 
-
 namespace CNET\Bridge;
-
-use ReflectionClass;
 
 /**
  * Project auto-loader
