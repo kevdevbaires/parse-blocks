@@ -6,12 +6,12 @@
 
 namespace CNET\Bridge;
 
-class CNetBridge {
+class CNET_Bridge {
 
     /**
      * Single instance of itself
      *
-     * @var CNetBridge
+     * @var CNET_Bridge
      *
      * @access private
      */
@@ -24,9 +24,8 @@ class CNetBridge {
      *
      * @access protected
      */
-	protected function __construct()
-    {
-		RestfulManager::bootstrap();
+	protected function __construct() {
+		Restful_Manager::bootstrap();
 	}
 
     /**
@@ -36,8 +35,7 @@ class CNetBridge {
      *
      * @access public
      */
-	public static function init()
-    {
+	public static function init() {
 		if (is_null(self::$_instance)) {
 			self::$_instance = new self;
 		}
@@ -50,8 +48,7 @@ class CNetBridge {
      *
      * @access public
      */
-    public static function activate()
-    {
+    public static function activate() {
         global $wp_version;
 
         //check PHP Version
@@ -65,7 +62,7 @@ class CNetBridge {
 
 if (defined('ABSPATH')) {
     require_once __DIR__ . '/autoloader.php';
-    add_action('init', __NAMESPACE__ . '\CNetBridge::init');
+    add_action('init', __NAMESPACE__ . '\CNET_Bridge::init');
 
-    register_activation_hook(__FILE__, __NAMESPACE__ . '\CNetBridge::activate');
+    register_activation_hook(__FILE__, __NAMESPACE__ . '\CNET_Bridge::activate');
 }

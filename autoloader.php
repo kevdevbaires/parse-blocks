@@ -7,11 +7,10 @@ namespace CNET\Bridge;
  *
  * @package CNET\Bridge
  */
-class Autoloader
-{
+class Autoloader {
 
     /**
-     * Auto-loader for project
+     * Autoloader for project
      *
      * Try to load a class within the same namespace
      *
@@ -22,16 +21,16 @@ class Autoloader
      * @access public
      * @static
      */
-    public static function load($class_name)
-    {
+    public static function load($class_name) {
         if (str_starts_with($class_name, __NAMESPACE__)) {
-            $base     = __DIR__ . '/application';
-            $relative = str_replace([__NAMESPACE__, '\\'], ['', '/'], $class_name);
-            $filename = $base . $relative . '.php';
+	        $base     = __DIR__ . '/application';
+	        $relative = str_replace([__NAMESPACE__, '\\'], ['', '/'], $class_name);
+			$relative_kebab = str_replace('_', '-', strtolower($relative));
+	        $filename = $base . $relative_kebab . '.php';
         }
 
         if (!empty($filename) && file_exists($filename)) {
-            require($filename);
+            require $filename;
         }
     }
 
@@ -45,18 +44,17 @@ class Autoloader
      * @access private
      * @static
      */
-    private static function instantiateClass($class_name)
-    {
+    private static function instantiate_class($class_name) {
         try {
-            $reflectionClass = new \ReflectionClass($class_name);
-            $instance = $reflectionClass->newInstance();
+            $reflection_class = new \ReflectionClass($class_name);
+            $instance = $reflection_class->newInstance();
         } catch (\ReflectionException $e) {
             error_log('Error instantiating class: ' . $e->getMessage());
         }
     }
 
     /**
-     * Auto-load and instantiate all classes within a namespace
+     * Autoload and instantiate all classes within a namespace
      *
      * @param string $namespace
      *
@@ -65,20 +63,24 @@ class Autoloader
      * @access public
      * @static
      */
-    public static function loadBlocks()
-    {
+    public static function load_blocks() {
         $namespace = __NAMESPACE__ . '\Blocks';
 
         $directory = __DIR__ . '/application/blocks';
         $files = glob($directory . '/*.php');
-        if ($files !== false) {
+
+        if ($files) {
             foreach ($files as $file) {
                 require_once $file;
 
-                $class_name = $namespace . "\\" .basename($file, '.php');
+				$basename = basename($file, '.php');
+
+				$class_name_formatted = ucwords(str_replace('-', '_', $basename), '_');
+
+                $class_name = $namespace . "\\" . $class_name_formatted;
 
                 if (class_exists($class_name)) {
-                    self::instantiateClass($class_name);
+                    self::instantiate_class($class_name);
                 }
             }
         }
@@ -92,8 +94,7 @@ class Autoloader
      * @access public
      * @static
      */
-    public static function register()
-    {
+    public static function register() {
         spl_autoload_register(__CLASS__ . '::load');
     }
 
@@ -101,5 +102,5 @@ class Autoloader
 
 if (defined('ABSPATH')) {
     Autoloader::register();
-    Autoloader::loadBLocks();
+    Autoloader::load_blocks();
 }

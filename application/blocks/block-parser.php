@@ -2,12 +2,10 @@
 
 namespace CNET\Bridge\Blocks;
 
-class BlockParser
-{
+class Block_Parser {
     protected $blocks;
 
-    protected function filterBlocks($blockName)
-    {
+    protected function filter_by_block_name($blockName) {
         return array_filter($this->blocks, function ($item) use ($blockName) {
             return $item['blockName'] == $blockName;
         });
