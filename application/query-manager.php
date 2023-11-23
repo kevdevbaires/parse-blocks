@@ -26,4 +26,3 @@ Class Query_Manager {
         return $this->post_manager->parse_post($post->post_content);
     }
 }
-

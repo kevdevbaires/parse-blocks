@@ -23,10 +23,10 @@ class Autoloader {
      */
     public static function load($class_name) {
         if (str_starts_with($class_name, __NAMESPACE__)) {
-	        $base     = __DIR__ . '/application';
-	        $relative = str_replace([__NAMESPACE__, '\\'], ['', '/'], $class_name);
-			$relative_kebab = str_replace('_', '-', strtolower($relative));
-	        $filename = $base . $relative_kebab . '.php';
+            $base     = __DIR__ . '/application';
+            $relative = str_replace([__NAMESPACE__, '\\'], ['', '/'], $class_name);
+            $relative_kebab = str_replace('_', '-', strtolower($relative));
+            $filename = $base . $relative_kebab . '.php';
         }
 
         if (!empty($filename) && file_exists($filename)) {
@@ -73,9 +73,9 @@ class Autoloader {
             foreach ($files as $file) {
                 require_once $file;
 
-				$basename = basename($file, '.php');
+                $basename = basename($file, '.php');
 
-				$class_name_formatted = ucwords(str_replace('-', '_', $basename), '_');
+                $class_name_formatted = ucwords(str_replace('-', '_', $basename), '_');
 
                 $class_name = $namespace . "\\" . $class_name_formatted;
 

@@ -22,7 +22,7 @@ class CNET_Bridge {
      *
      * @access private
      */
-	private static $_instance = null;
+    private static $_instance = null;
 
     /**
      * Constructor
@@ -31,9 +31,9 @@ class CNET_Bridge {
      *
      * @access protected
      */
-	protected function __construct() {
-		Restful_Manager::bootstrap();
-	}
+    protected function __construct() {
+        Restful_Manager::bootstrap();
+    }
 
     /**
      * Activation hook
@@ -42,11 +42,11 @@ class CNET_Bridge {
      *
      * @access public
      */
-	public static function init() {
-		if (is_null(self::$_instance)) {
-			self::$_instance = new self;
-		}
-	}
+    public static function init() {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self;
+        }
+    }
 
     /**
      * Activation hook
