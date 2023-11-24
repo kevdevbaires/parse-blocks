@@ -19,7 +19,7 @@ class Paragraph_Block extends Block_Parser implements Block_Interface {
 
         $filteredBlocks = $this->filter_by_block_name('core/paragraph');
 
-        return $this->to_html($filteredBlocks);
+        return implode($this->to_html($filteredBlocks));
     }
 
     public function to_html($filteredBlocks) {
