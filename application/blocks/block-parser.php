@@ -12,7 +12,6 @@ class Block_Parser {
         });
     }
 
-	//DOM document
 	public function parse_inner_html($block) {
 		$doc = new DOMDocument();
 		libxml_use_internal_errors(true);
