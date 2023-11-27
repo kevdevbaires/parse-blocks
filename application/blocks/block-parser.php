@@ -2,6 +2,7 @@
 
 namespace CNET\Bridge\Blocks;
 
+use DOMDocument;
 class Block_Parser {
     protected $blocks;
 
@@ -10,4 +11,16 @@ class Block_Parser {
             return $item['blockName'] == $blockName;
         });
     }
+
+	//DOM document
+	public function parse_inner_html($block) {
+		$doc = new DOMDocument();
+		libxml_use_internal_errors(true);
+
+		if ($doc->loadHTML($block['innerHTML'])){
+		    return $doc;
+		}
+
+		return $doc->loadHTML($block['innerHTML']);
+	}
 }

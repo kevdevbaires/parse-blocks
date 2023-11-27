@@ -19,12 +19,15 @@ class Paragraph_Block extends Block_Parser implements Block_Interface {
 
         $filteredBlocks = $this->filter_by_block_name('core/paragraph');
 
-        return implode($this->to_html($filteredBlocks));
+        return $this->to_html($filteredBlocks);
     }
 
     public function to_html($filteredBlocks) {
         foreach ($filteredBlocks as $key => $block) {
-            $this->blocks[$key] = trim(preg_replace('/\s+/', ' ', $block['innerHTML']));
+            $this->blocks[$key] = [
+				'blockName' => 'parsed',
+				'block_html' => trim(preg_replace('/\s+/', ' ', $block['innerHTML']))
+            ];
         }
 
         return $this->blocks;

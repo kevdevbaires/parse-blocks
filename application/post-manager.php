@@ -12,4 +12,6 @@ class Post_Manager {
 
         return apply_filters('bridge_block_filter', $filtered_array);
     }
+
+	//function build_html {}
 }
