@@ -23,6 +23,6 @@ Class Query_Manager {
             return $post;
         }
 
-        return $this->post_manager->build_html($post->post_content);
+        return $this->post_manager->parse_post($post->post_content);
     }
 }

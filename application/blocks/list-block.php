@@ -12,11 +12,11 @@ class List_Block extends Block_Parser implements Block_Interface {
 		});
 	}
 
-	function init() {
+	public function init() {
 		add_filter('bridge_block_filter', [$this, 'block_parser']);
 	}
 
-	function block_parser($content) {
+	public function block_parser($content) {
 		$this->blocks = $content;
 
 		$filteredBlocks = $this->filter_by_block_name(self::BLOCK_TYPE);
@@ -24,7 +24,7 @@ class List_Block extends Block_Parser implements Block_Interface {
 		return $this->to_html($filteredBlocks);
 	}
 
-	function to_html($filteredBlocks) {
+	public function to_html($filteredBlocks) {
 		foreach ($filteredBlocks as $key => $block) {
 			$this->blocks[$key] = [
 				'blockName' => 'parse',
@@ -35,7 +35,7 @@ class List_Block extends Block_Parser implements Block_Interface {
 		return $this->blocks;
 	}
 
-	function get_attributes($block) {
+	private function get_attributes($block) {
 		$inner_html = $this->parse_inner_html($block);
 
 		if (!$inner_html) return null;
@@ -43,7 +43,7 @@ class List_Block extends Block_Parser implements Block_Interface {
 		return $this->loop_inner_blocks($block);
 	}
 
-	function loop_inner_blocks($block){
+	private function loop_inner_blocks($block){
 		if (!is_array($block) || count($block) == 0) return '';
 
 		$list_items = [];
