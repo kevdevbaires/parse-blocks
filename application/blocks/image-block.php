@@ -3,7 +3,7 @@
 namespace CNET\Bridge\Blocks;
 
 class Image_Block extends Block_Parser implements Block_Interface {
-	const BLOCK_TYPE = 'core/image';
+	const BLOCK_NAME = 'core/image';
 
     public function __construct() {
         add_action('init',function () {
@@ -18,7 +18,7 @@ class Image_Block extends Block_Parser implements Block_Interface {
     public function block_parser($content) {
         $this->blocks = $content;
 
-        $filteredBlocks = $this->filter_by_block_name(self::BLOCK_TYPE);
+        $filteredBlocks = $this->filter_by_block_name(self::BLOCK_NAME);
 
         return $this->to_html($filteredBlocks);
     }
