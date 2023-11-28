@@ -10,21 +10,21 @@ class Post_Manager {
 
         $filtered_array = array_values($filter_empty_blocks);
 
-		$blocks = apply_filters('bridge_block_filter', $filtered_array);
+        $blocks = apply_filters('bridge_block_filter', $filtered_array);
 
-		return $this->build_html($blocks);
+        return $this->build_html($blocks);
 
     }
 
-	private function build_html($blocks) {
-		$html = '';
+    private function build_html($blocks) {
+        $html = '';
 
-		foreach ($blocks as $block) {
-			if ($block['blockName'] !== 'parsed') continue;
+        foreach ($blocks as $block) {
+            if ($block['blockName'] !== 'parsed') continue;
 
-			$html .= $block['block_html'];
-		}
+            $html .= $block['block_html'];
+        }
 
-		return $html;
-	}
+        return $html;
+    }
 }

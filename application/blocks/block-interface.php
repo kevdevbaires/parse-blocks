@@ -9,5 +9,5 @@ interface Block_Interface {
 
     function to_html($filteredBlocks);
 
-	function get_attributes($block);
+    function get_attributes($block);
 }

@@ -4,7 +4,7 @@ namespace CNET\Bridge\Blocks;
 
 class Paragraph_Block extends Block_Parser implements Block_Interface {
 
-	const BLOCK_NAME = 'core/paragraph';
+    const BLOCK_NAME = 'core/paragraph';
 
     public function __construct() {
         add_action('init',function () {
@@ -27,15 +27,15 @@ class Paragraph_Block extends Block_Parser implements Block_Interface {
     public function to_html($filteredBlocks) {
         foreach ($filteredBlocks as $key => $block) {
             $this->blocks[$key] = [
-				'blockName' => 'parsed',
-				'block_html' => $this->get_attributes($block)
+                'blockName' => 'parsed',
+                'block_html' => $this->get_attributes($block)
             ];
         }
 
         return $this->blocks;
     }
 
-	public function get_attributes($block) {
-		return trim(preg_replace('/\s+/', ' ', $block['innerHTML']));
-	}
+    public function get_attributes($block) {
+        return trim(preg_replace('/\s+/', ' ', $block['innerHTML']));
+    }
 }

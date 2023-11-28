@@ -12,14 +12,14 @@ class Block_Parser {
         });
     }
 
-	public function parse_inner_html($block) {
-		$doc = new DOMDocument();
-		libxml_use_internal_errors(true);
+    public function parse_inner_html($block) {
+        $doc = new DOMDocument();
+        libxml_use_internal_errors(true);
 
-		if ($doc->loadHTML($block['innerHTML'])){
-		    return $doc;
-		}
+        if ($doc->loadHTML($block['innerHTML'])){
+            return $doc;
+        }
 
-		return $doc->loadHTML($block['innerHTML']);
-	}
+        return $doc->loadHTML($block['innerHTML']);
+    }
 }
