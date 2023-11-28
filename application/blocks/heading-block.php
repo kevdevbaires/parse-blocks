@@ -3,6 +3,7 @@
 namespace CNET\Bridge\Blocks;
 
 class Heading_Block extends Block_Parser implements Block_Interface {
+	const BLOCK_TYPE = 'core/heading';
 
 	public function __construct() {
 		add_action('init',function () {
@@ -17,7 +18,7 @@ class Heading_Block extends Block_Parser implements Block_Interface {
 	function block_parser( $content ) {
 		$this->blocks = $content;
 
-		$filteredBlocks = $this->filter_by_block_name('core/heading');
+		$filteredBlocks = $this->filter_by_block_name(self::BLOCK_TYPE);
 
 		return $this->to_html($filteredBlocks);
 	}

@@ -4,6 +4,8 @@ namespace CNET\Bridge\Blocks;
 
 class Paragraph_Block extends Block_Parser implements Block_Interface {
 
+	const BLOCK_TYPE = 'core/paragraph';
+
     public function __construct() {
         add_action('init',function () {
             $this->init();
@@ -17,7 +19,7 @@ class Paragraph_Block extends Block_Parser implements Block_Interface {
     public function block_parser($content) {
         $this->blocks = $content;
 
-        $filteredBlocks = $this->filter_by_block_name('core/paragraph');
+        $filteredBlocks = $this->filter_by_block_name(self::BLOCK_TYPE);
 
         return $this->to_html($filteredBlocks);
     }
