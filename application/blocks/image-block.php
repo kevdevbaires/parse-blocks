@@ -40,7 +40,7 @@ class Image_Block extends Block_Parser implements Block_Interface {
         return $this->blocks;
     }
 
-	private function get_attributes($block) {
+	public function get_attributes($block) {
 		$inner_html = $this->parse_inner_html($block);
 
 		if (!$inner_html) return null;

@@ -28,10 +28,14 @@ class Paragraph_Block extends Block_Parser implements Block_Interface {
         foreach ($filteredBlocks as $key => $block) {
             $this->blocks[$key] = [
 				'blockName' => 'parsed',
-				'block_html' => trim(preg_replace('/\s+/', ' ', $block['innerHTML']))
+				'block_html' => $this->get_attributes($block)
             ];
         }
 
         return $this->blocks;
     }
+
+	public function get_attributes($block) {
+		return trim(preg_replace('/\s+/', ' ', $block['innerHTML']));
+	}
 }
