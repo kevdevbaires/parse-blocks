@@ -27,7 +27,7 @@ class List_Block extends Block_Parser implements Block_Interface {
     public function to_html($filteredBlocks) {
         foreach ($filteredBlocks as $key => $block) {
             $this->blocks[$key] = [
-                'blockName' => 'parse',
+                'blockName' => 'parsed',
                 'block_html' => $this->get_attributes($block)
             ];
         }
@@ -62,6 +62,8 @@ class List_Block extends Block_Parser implements Block_Interface {
             }
         }
 
-        return $opening_tag . implode($list_items) . $closing_tag;
+        $list_item = $opening_tag . implode($list_items) . $closing_tag;
+
+        return trim(preg_replace('/\s+/', ' ', $list_item));
     }
 }

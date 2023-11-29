@@ -4,15 +4,15 @@ namespace CNET\Bridge;
 
 class Post_Manager {
     public function parse_post($post) {
-        $parsed_blocks = parse_blocks($post);
+	    $parsed_blocks = parse_blocks($post);
 
-        $filter_empty_blocks = array_filter($parsed_blocks, fn ($item) => $item['blockName'] !== NULL);
+	    $filter_empty_blocks = array_filter($parsed_blocks, fn ($item) => $item['blockName'] !== NULL);
 
-        $filtered_array = array_values($filter_empty_blocks);
+	    $filtered_array = array_values($filter_empty_blocks);
 
-        $blocks = apply_filters('bridge_block_filter', $filtered_array);
+	    $blocks = apply_filters('bridge_block_filter', $filtered_array);
 
-        return $this->build_html($blocks);
+	    return $this->build_html($blocks);
 
     }
 
